@@ -143,7 +143,7 @@ avg_grossing =df_filtered["Gross"].mean()
 col1, col2, col3 = st.columns(3)
 col1.metric("Average IMDb rating",round(avg_IMDB_Rating,2))
 col2.metric("Average Meta score",round(avg_Metacritic,2))
-col3.metric("Average grossing * mld", round(avg_grossing,2))   
+col3.metric("Average grossing (bil)", round(avg_grossing,2))   
 
 #Piecharts
 genere_one=[]
@@ -165,7 +165,7 @@ with col1_:
     st.plotly_chart(fig1, use_container_width=True)
 
 with col2_:
-    st.text("Gross distribution for genre")
+    st.text("Gross distribution (bil) for genre")
     fig2 = px.pie(df_filtered,values='Gross',names='genre_one')
     st.plotly_chart(fig2, use_container_width=True)
 
