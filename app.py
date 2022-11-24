@@ -68,23 +68,23 @@ for row in df['Genre']:
 set_genre =set(list_genre)
 
 # NOME SIDEBAR
-st.sidebar.header("Filtri")
+st.sidebar.header("Filters")
 
 # SCELTA NOME FILM E ATTORI
 name = st.sidebar.text_input('Nome Film')
 Attore = st.sidebar.text_input('Nome Attore')
 
 # SCELTA VALORI MIN E MAX
-min_date= st.sidebar.slider('Anno min',min(df["Released_Year"]),max(df["Released_Year"]))
-max_date=st.sidebar.slider('Anno max',min(df["Released_Year"]),max(df["Released_Year"]),value=max(df["Released_Year"]))
+min_date= st.sidebar.slider('Min year',min(df["Released_Year"]),max(df["Released_Year"]))
+max_date=st.sidebar.slider('Max year',min(df["Released_Year"]),max(df["Released_Year"]),value=max(df["Released_Year"]))
 
-min_imdb= st.sidebar.slider('Min IMDB_Rating',min(df["IMDB_Rating"]),max(df["IMDB_Rating"]))
-min_meta=st.sidebar.slider('Min Meta score',min(df["Meta_score"]),max(df["Meta_score"]))
+min_imdb= st.sidebar.slider('Min IMDb Rating',min(df["IMDB_Rating"]),max(df["IMDB_Rating"]))
+min_meta=st.sidebar.slider('Min Meta Score',min(df["Meta_score"]),max(df["Meta_score"]))
 
 df_gross_min = df['Gross'].min()
 df_gross_max = df['Gross'].max()
 
-gross_th=st.sidebar.slider('Min grossing * mld',df_gross_min,df_gross_max,0.001)
+gross_th=st.sidebar.slider('Min grossing (bil)',df_gross_min,df_gross_max,0.001)
 
 
 
@@ -95,13 +95,13 @@ states = st.sidebar.multiselect(
 )
 
 # SCELTA tipo genere
-tipo_genere=st.sidebar.radio('Genere specifico',('Specifico', 'Generale'))
+tipo_genere=st.sidebar.radio('Genre',('Single', 'Multi'))
 
 # FUNZ ricerca genere
 def search_genre(df,states,tipo_genere):
     fine=[] #
     tmp=[] #
-    if tipo_genere=='Generale': # se devo prendere piu valore
+    if tipo_genere=='Multi': # se devo prendere piu valore
         if(len(states)==0): # se non seleziono nessun genere torna tutti i valori
             fine=True
         else:
