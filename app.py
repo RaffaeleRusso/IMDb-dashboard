@@ -71,8 +71,8 @@ set_genre =set(list_genre)
 st.sidebar.header("Filters")
 
 # SCELTA NOME FILM E ATTORI
-name = st.sidebar.text_input('Nome Film')
-Attore = st.sidebar.text_input('Nome Attore')
+name = st.sidebar.text_input('Film name')
+Attore = st.sidebar.text_input('Actor name')
 
 # SCELTA VALORI MIN E MAX
 min_date= st.sidebar.slider('Min year',min(df["Released_Year"]),max(df["Released_Year"]))
@@ -90,7 +90,7 @@ gross_th=st.sidebar.slider('Min grossing (bil)',df_gross_min,df_gross_max,0.001)
 
 # SCELTA generi
 states = st.sidebar.multiselect(
-    "Generi",
+    "Genres",
     options=set_genre
 )
 
