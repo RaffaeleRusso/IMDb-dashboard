@@ -5,7 +5,7 @@ import streamlit as st # https://docs.streamlit.io/
 
 ### Setting up webpage attributes
 st.set_page_config(
-    page_title="Studio Imdb",
+    page_title="Studio IMDb",
     page_icon=":film_frames:",
     layout="wide"
 )
