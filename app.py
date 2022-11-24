@@ -134,7 +134,7 @@ df_filtered = df[
     ]
 
 #TITLE
-st.title("Dataset Imdb :film_frames:")
+st.title("Dataset IMDb :film_frames:")
 
 #KPI 
 avg_IMDB_Rating = df_filtered["IMDB_Rating"].mean()
