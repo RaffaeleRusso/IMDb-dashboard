@@ -1,10 +1,7 @@
 ## Importing libraries
-import datetime
-from numpy import empty, true_divide
 import pandas as pd # https://pandas.pydata.org/docs/
 import plotly_express as px # https://plotly.com/python-api-reference/index.html
 import streamlit as st # https://docs.streamlit.io/
-import urllib
 
 ### Setting up webpage attributes
 st.set_page_config(
