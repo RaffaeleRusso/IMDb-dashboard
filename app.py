@@ -155,8 +155,8 @@ avg_Metacritic_df = df["Meta_score"].mean()
 avg_grossing_df = df["Gross"].mean()
 
 col1, col2, col3 = st.columns(3)
-col1.metric("Average IMDb rating",round(avg_IMDB_Rating,2),delta=avg_IMDB_Rating-avg_IMDB_Rating_df)
-col2.metric("Average Meta score",round(avg_Metacritic,2),delta=avg_Metacritic-avg_Metacritic_df)
+col1.metric("Average IMDb Rating",round(avg_IMDB_Rating,2),delta=avg_IMDB_Rating-avg_IMDB_Rating_df)
+col2.metric("Average Metascore",round(avg_Metacritic,2),delta=avg_Metacritic-avg_Metacritic_df)
 col3.metric("Average grossing (bil)", round(avg_grossing,2),delta=avg_grossing-avg_grossing_df)   
 
 
@@ -191,7 +191,7 @@ else:
             st.plotly_chart(fig2, use_container_width=True)
         col3_, col4_= st.columns(2)
         with col3_:
-            st.text("IMDB Rating histogram")
+            st.text("IMDb Rating histogram")
             fig3 = px.histogram(df_filtered,x='IMDB_Rating') 
             st.plotly_chart(fig3, use_container_width=True)
         with col4_:
@@ -214,13 +214,13 @@ else:
             st.plotly_chart(fig7, use_container_width=True)
             
         with col8_:
-            st.text("Scatter Runtime-IMDB_Rating")
+            st.text("Scatter Runtime-IMDb Rating")
             fig8 = px.scatter(df, x="Runtime", y="IMDB_Rating")
             st.plotly_chart(fig8, use_container_width=True)
 
         col9_, col10_= st.columns(2)
         with col9_:
-            st.text("Scatter Gross-IMDB_Rating")
+            st.text("Scatter Gross-IMDb_Rating")
             fig9 = px.scatter(df, x="Gross", y="IMDB_Rating") 
             st.plotly_chart(fig9, use_container_width=True)
             
