@@ -220,7 +220,7 @@ else:
 
         col9_, col10_= st.columns(2)
         with col9_:
-            st.text("Scatter Gross-IMDb_Rating")
+            st.text("Scatter Gross-IMDb Rating")
             fig9 = px.scatter(df, x="Gross", y="IMDB_Rating") 
             st.plotly_chart(fig9, use_container_width=True)
             
