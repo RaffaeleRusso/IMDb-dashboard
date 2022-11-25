@@ -84,7 +84,7 @@ min_meta=st.sidebar.slider('Min Meta Score',min(df["Meta_score"]),max(df["Meta_s
 df_gross_min = df['Gross'].min()
 df_gross_max = df['Gross'].max()
 
-gross_th=st.sidebar.slider('Min grossing (bil)',df_gross_min,df_gross_max,0.001)
+gross_th=st.sidebar.slider('Min grossing (bil)',df_gross_min,df_gross_max,0.00001)
 
 
 
@@ -123,15 +123,18 @@ def search_genre(df,states,tipo_genere):
     return fine
 
 #FILTER
+df_filtered = df
 df_filtered = df[
     (df["Released_Year"] >= min_date) &
-    (df["Released_Year"] <= max_date) & df["Series_Title"].str.contains(name) &
-    (df["IMDB_Rating"]>=min_imdb) & (df["Meta_score"]>=min_meta)  &
-    (search_genre(df,states,tipo_genere)) &
+    (df["Released_Year"] <= max_date) & 
+    (df["Series_Title"].str.contains(name)) &
+    (df["IMDB_Rating"]>=min_imdb) & 
+    (df["Meta_score"]>=min_meta) &
+    (search_genre(df,states,tipo_genere))&
     (df["Star1"].str.contains(Attore,case=False) | df["Star2"].str.contains(Attore,case=False)
      | df["Star3"].str.contains(Attore,case=False) | df["Star4"].str.contains(Attore,case=False)) 
-     & (df['Gross']>gross_th)
-    ]
+     & (df['Gross']>=gross_th)]
+    
 
 #TITLE
 st.title("Dataset IMDb :film_frames:")
@@ -140,10 +143,17 @@ st.title("Dataset IMDb :film_frames:")
 avg_IMDB_Rating = df_filtered["IMDB_Rating"].mean()
 avg_Metacritic =df_filtered["Meta_score"].mean()
 avg_grossing =df_filtered["Gross"].mean()
+
+avg_IMDB_Rating_df = df["IMDB_Rating"].mean()
+avg_Metacritic_df = df["Meta_score"].mean()
+avg_grossing_df = df["Gross"].mean()
+
 col1, col2, col3 = st.columns(3)
-col1.metric("Average IMDb rating",round(avg_IMDB_Rating,2))
-col2.metric("Average Meta score",round(avg_Metacritic,2))
-col3.metric("Average grossing (bil)", round(avg_grossing,2))   
+col1.metric("Average IMDb rating",round(avg_IMDB_Rating,2),delta=avg_IMDB_Rating-avg_IMDB_Rating_df)
+col2.metric("Average Meta score",round(avg_Metacritic,2),delta=avg_Metacritic-avg_Metacritic_df)
+col3.metric("Average grossing (bil)", round(avg_grossing,2),delta=avg_grossing-avg_grossing_df)   
+
+
 
 #Piecharts
 genere_one=[]
@@ -153,21 +163,44 @@ for i,k in df_filtered.iterrows():
 df_filtered['genre_one']=genere_one
 
 
-### Showing dataset
-st.text("Selected movies")
-st.dataframe(df_filtered)
 
+if df_filtered.shape[0]==0:
+    st.warning("0 Movies found")#,icon="🚨")
+else:
+    ### Showing dataset
+    st.success(str(df_filtered.shape[0])+" Movies found")
+    with st.expander("Display movies"):
+        st.dataframe(df_filtered)
 
-col1_, col2_= st.columns(2)
-with col1_:
-    st.text("Genre distribution")
-    fig1 = px.pie(df_filtered,names='genre_one') 
-    st.plotly_chart(fig1, use_container_width=True)
+    with st.expander("Display Charts"):
+        col1_, col2_= st.columns(2)
+        with col1_:
+            st.text("Genre distribution")
+            fig1 = px.pie(df_filtered,names='genre_one') 
+            st.plotly_chart(fig1, use_container_width=True)
 
-with col2_:
-    st.text("Gross distribution (bil) for genre")
-    fig2 = px.pie(df_filtered,values='Gross',names='genre_one')
-    st.plotly_chart(fig2, use_container_width=True)
+        with col2_:
+            st.text("Gross distribution (bil) for genre")
+            fig2 = px.pie(df_filtered,values='Gross',names='genre_one')
+            st.plotly_chart(fig2, use_container_width=True)
+        col3_, col4_= st.columns(2)
+        with col3_:
+            st.text("IMDB Rating histogram")
+            fig3 = px.histogram(df_filtered,x='IMDB_Rating') 
+            st.plotly_chart(fig3, use_container_width=True)
+        with col4_:
+            st.text("Metascore histogram")
+            fig4 = px.histogram(df_filtered,x='Meta_score') 
+            st.plotly_chart(fig4, use_container_width=True)
+        col5_, col6_= st.columns(2)
+        with col5_:
+            st.text("Gross histogram")
+            fig5 = px.histogram(df_filtered,x='Gross') 
+            st.plotly_chart(fig5, use_container_width=True)
+        with col6_:
+            st.text("Votes No histogram")
+            fig6 = px.histogram(df_filtered,x='No_of_Votes') 
+            st.plotly_chart(fig6, use_container_width=True)
 
 
 
