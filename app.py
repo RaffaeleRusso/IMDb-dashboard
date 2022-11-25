@@ -56,6 +56,7 @@ def select_first_genre(df):
 df = load_dataset()
 dftmp=df['Gross'].str.replace(',','').astype(float)/100000000
 df['Gross']=dftmp
+df["Runtime"] = df["Runtime"].str.extract('(\d+)').astype(int)
 
 
 
@@ -80,6 +81,9 @@ max_date=st.sidebar.slider('Max year',min(df["Released_Year"]),max(df["Released_
 
 min_imdb= st.sidebar.slider('Min IMDb Rating',min(df["IMDB_Rating"]),max(df["IMDB_Rating"]))
 min_meta=st.sidebar.slider('Min Meta Score',min(df["Meta_score"]),max(df["Meta_score"]))
+
+min_duration=st.sidebar.slider('Min Runtime',min(df['Runtime']),max(df["Runtime"]))
+
 
 df_gross_min = df['Gross'].min()
 df_gross_max = df['Gross'].max()
@@ -133,7 +137,9 @@ df_filtered = df[
     (search_genre(df,states,tipo_genere))&
     (df["Star1"].str.contains(Attore,case=False) | df["Star2"].str.contains(Attore,case=False)
      | df["Star3"].str.contains(Attore,case=False) | df["Star4"].str.contains(Attore,case=False)) 
-     & (df['Gross']>=gross_th)]
+     & (df['Gross']>=gross_th)
+     & (df['Runtime']>=min_duration)
+     ]
     
 
 #TITLE
@@ -191,7 +197,7 @@ else:
         with col4_:
             st.text("Metascore histogram")
             fig4 = px.histogram(df_filtered,x='Meta_score') 
-            st.plotly_chart(fig4, use_container_width=True)
+            st.plotly_chart(fig4, use_container_width=True)#,color_discrete_sequence = ['darkred'])
         col5_, col6_= st.columns(2)
         with col5_:
             st.text("Gross histogram")
@@ -201,7 +207,29 @@ else:
             st.text("Votes No histogram")
             fig6 = px.histogram(df_filtered,x='No_of_Votes') 
             st.plotly_chart(fig6, use_container_width=True)
+        col7_, col8_= st.columns(2)
+        with col7_:
+            st.text("Runtime histogram")
+            fig7 = px.histogram(df_filtered,x='Runtime') 
+            st.plotly_chart(fig7, use_container_width=True)
+            
+        with col8_:
+            st.text("Scatter Runtime-IMDB_Rating")
+            fig8 = px.scatter(df, x="Runtime", y="IMDB_Rating")
+            st.plotly_chart(fig8, use_container_width=True)
 
+        col9_, col10_= st.columns(2)
+        with col9_:
+            st.text("Scatter Gross-IMDB_Rating")
+            fig9 = px.scatter(df, x="Gross", y="IMDB_Rating") 
+            st.plotly_chart(fig9, use_container_width=True)
+            
+        with col10_:
+            st.text("Scatter Gross-Metascore")
+            fig10 = px.scatter(df, x="Gross", y="Meta_score")
+            st.plotly_chart(fig10, use_container_width=True)
+            
+            
 
 
 
