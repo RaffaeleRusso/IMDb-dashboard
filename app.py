@@ -80,7 +80,7 @@ min_date= st.sidebar.slider('Min year',min(df["Released_Year"]),max(df["Released
 max_date=st.sidebar.slider('Max year',min(df["Released_Year"]),max(df["Released_Year"]),value=max(df["Released_Year"]))
 
 min_imdb= st.sidebar.slider('Min IMDb Rating',min(df["IMDB_Rating"]),max(df["IMDB_Rating"]))
-min_meta=st.sidebar.slider('Min Meta Score',min(df["Meta_score"]),max(df["Meta_score"]))
+min_meta=st.sidebar.slider('Min Metascore',min(df["Meta_score"]),max(df["Meta_score"]))
 
 min_duration=st.sidebar.slider('Min Runtime',min(df['Runtime']),max(df["Runtime"]))
 
